@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wordle/components/grid.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -20,7 +21,10 @@ class _HomePageState extends State<HomePage> {
         children: [
           Expanded(
             flex: 7,
-            child: Container(color: Colors.yellow),
+            child: Container(
+              color: Colors.yellow,
+              child: const Grid(),
+            ),
           ),
           Expanded(
             flex: 4,
