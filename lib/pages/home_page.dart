@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wordle/components/grid.dart';
+import 'package:wordle/components/keyboard_row.dart';
+import 'package:wordle/data/keys_map.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -28,7 +30,16 @@ class _HomePageState extends State<HomePage> {
           ),
           Expanded(
             flex: 4,
-            child: Container(color: Colors.green),
+            child: Container(
+              color: Colors.green,
+              child: Column(
+                children: const [
+                  KeyBoardRow(min: 1, max: 10,),
+                  KeyBoardRow(min: 11, max: 19,),
+                  KeyBoardRow(min: 20, max: 29,),
+                ],
+              ),
+            ),
           ),
         ],
       ),
