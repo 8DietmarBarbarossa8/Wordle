@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:wordle/controller.dart';
 import 'package:wordle/data/keys_map.dart';
+import 'package:provider/provider.dart';
 
 class KeyBoardRow extends StatelessWidget {
   const KeyBoardRow({
@@ -30,7 +32,12 @@ class KeyBoardRow extends StatelessWidget {
                     color: Colors.red,
                     child: Material(
                       child: InkWell(
-                        onTap: (){},
+                        onTap: () {
+                          Provider.of<Controller>(context, listen: false)
+                              .setKeyTapped(
+                            value: e.key,
+                          );
+                        },
                         child: Center(child: Text(e.key)),
                       ),
                     ),
