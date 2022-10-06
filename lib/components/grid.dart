@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wordle/components/tile.dart';
 
 class Grid extends StatelessWidget {
   const Grid({
@@ -14,14 +15,12 @@ class Grid extends StatelessWidget {
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 5,
         mainAxisSpacing: 4,
-        crossAxisSpacing: 4, 
+        crossAxisSpacing: 4,
       ),
       itemBuilder: (context, index) {
         return Container(
-          decoration: BoxDecoration(
-            border: Border.all()
-          ),
-          child: Center(child: Text('$index')),
+          decoration: BoxDecoration(border: Border.all()),
+          child: Tile(index: index,),
         );
       },
     );

@@ -1,7 +1,10 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:wordle/components/grid.dart';
 import 'package:wordle/components/keyboard_row.dart';
-import 'package:wordle/data/keys_map.dart';
+import 'package:wordle/constants/words.dart';
+import 'package:provider/provider.dart';
+import 'package:wordle/controller.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -11,6 +14,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late String _word;
+
+  @override
+  void initState() {
+    final random = Random().nextInt(words.length);
+    _word = words[random];
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) { 
+    Provider.of<Controller>(context, listen: false).setCorrectWord(word: _word);
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
