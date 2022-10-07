@@ -63,7 +63,6 @@ class _TileState extends State<Tile> {
 
           return Container(
             decoration: _decorBox(),
-            color: _backgroundColor,
             child: FittedBox(
               fit: BoxFit.contain,
               child: Padding(
