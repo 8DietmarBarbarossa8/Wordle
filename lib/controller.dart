@@ -76,6 +76,14 @@ class Controller extends ChangeNotifier {
       }
     }
 
+    for (int i = row; i < row + 5; i++) {
+      if (tilesEntered[i].answerStage == AnswerStage.notAnswered) {
+        tilesEntered[i].answerStage = AnswerStage.incorrect;
+        keysMap.update(
+            tilesEntered[i].letter, (value) => AnswerStage.incorrect);
+      }
+    }
+
     currentRow++;
     notifyListeners();
   }

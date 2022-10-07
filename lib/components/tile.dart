@@ -17,8 +17,19 @@ class Tile extends StatefulWidget {
 }
 
 class _TileState extends State<Tile> {
-  Color _backgroundColor = Colors.transparent;
+  Color _backgroundColor = Colors.transparent,
+      _borderColor = Colors.transparent;
   late AnswerStage _answerStage;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _borderColor = Theme.of(context).primaryColorLight;
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<Controller>(
@@ -28,35 +39,57 @@ class _TileState extends State<Tile> {
           text = notifier.tilesEntered[widget.index].letter;
           _answerStage = notifier.tilesEntered[widget.index].answerStage;
 
+          Color keyColor = Colors.white;
           switch (_answerStage) {
             case AnswerStage.correct:
               _backgroundColor = correctGreen;
+              _borderColor = correctGreen;
               break;
             case AnswerStage.contains:
               _backgroundColor = containsYellow;
+              _borderColor = Colors.transparent;
               break;
             case AnswerStage.incorrect:
-              // TODO: Handle this case.
+              _backgroundColor = Theme.of(context).primaryColorDark;
+              _borderColor = Colors.transparent;
               break;
             case AnswerStage.notAnswered:
-              // TODO: Handle this case.
+              _backgroundColor = Theme.of(context).primaryColorLight;
               break;
+            default:
+              keyColor =
+                  Theme.of(context).textTheme.bodyText2?.color ?? Colors.white;
           }
 
           return Container(
+            decoration: _decorBox(),
             color: _backgroundColor,
             child: FittedBox(
               fit: BoxFit.contain,
               child: Padding(
                 padding: const EdgeInsets.all(6.0),
-                child: Text(text),
+                child: Text(
+                  text,
+                  style: const TextStyle().copyWith(color: keyColor),
+                ),
               ),
             ),
           );
         } else {
-          return const SizedBox();
+          return Container(
+            decoration: _decorBox(),
+          );
         }
       },
+    );
+  }
+
+  BoxDecoration _decorBox() {
+    return BoxDecoration(
+      color: _backgroundColor,
+      border: Border.all(
+        color: _borderColor,
+      ),
     );
   }
 }

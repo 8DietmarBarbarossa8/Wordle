@@ -26,6 +26,7 @@ class KeyBoardRow extends StatelessWidget {
             index++;
             if (index >= min && index <= max) {
               Color color = Colors.grey;
+              Color keyColor = Colors.white;
               switch (e.value) {
                 case AnswerStage.correct:
                   color = correctGreen;
@@ -34,12 +35,16 @@ class KeyBoardRow extends StatelessWidget {
                   color = containsYellow;
                   break;
                 case AnswerStage.incorrect:
-                  // TODO: Handle this case.
+                  color = Theme.of(context).primaryColorDark;
                   break;
                 case AnswerStage.notAnswered:
-                  // TODO: Handle this case.
+                  color = Theme.of(context).primaryColorLight;
                   break;
+                default:
+                  keyColor = Theme.of(context).textTheme.bodyText2?.color ??
+                      Colors.white;
               }
+
               return Padding(
                 padding: EdgeInsets.all(size.width * .006),
                 child: ClipRRect(
@@ -57,7 +62,14 @@ class KeyBoardRow extends StatelessWidget {
                             value: e.key,
                           );
                         },
-                        child: Center(child: Text(e.key)),
+                        child: Center(
+                            child: Text(
+                          e.key,
+                          style:
+                              Theme.of(context).textTheme.bodyText2?.copyWith(
+                                    color: keyColor,
+                                  ),
+                        )),
                       ),
                     ),
                   ),

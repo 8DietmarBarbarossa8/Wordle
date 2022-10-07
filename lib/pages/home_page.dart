@@ -20,11 +20,13 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     final random = Random().nextInt(words.length);
     _word = words[random];
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) { 
-    Provider.of<Controller>(context, listen: false).setCorrectWord(word: _word);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<Controller>(context, listen: false)
+          .setCorrectWord(word: _word);
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,24 +37,31 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Column(
         children: [
-          Expanded(
+          const Divider(
+            thickness: 2,
+            height: 1,
+          ),
+          const Expanded(
             flex: 7,
-            child: Container(
-              color: Colors.yellow,
-              child: const Grid(),
-            ),
+            child: Grid(),
           ),
           Expanded(
             flex: 4,
-            child: Container(
-              color: Colors.green,
-              child: Column(
-                children: const [
-                  KeyBoardRow(min: 1, max: 10,),
-                  KeyBoardRow(min: 11, max: 19,),
-                  KeyBoardRow(min: 20, max: 29,),
-                ],
-              ),
+            child: Column(
+              children: const [
+                KeyBoardRow(
+                  min: 1,
+                  max: 10,
+                ),
+                KeyBoardRow(
+                  min: 11,
+                  max: 19,
+                ),
+                KeyBoardRow(
+                  min: 20,
+                  max: 29,
+                ),
+              ],
             ),
           ),
         ],
