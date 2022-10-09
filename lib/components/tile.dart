@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wordle/constants/answer_stages.dart';
 import 'package:wordle/constants/colors.dart';
-import 'package:wordle/controller.dart';
+import 'package:wordle/providers/controller.dart';
 import 'package:provider/provider.dart';
 
 class Tile extends StatefulWidget {
@@ -59,6 +59,7 @@ class _TileState extends State<Tile> {
             default:
               keyColor =
                   Theme.of(context).textTheme.bodyText2?.color ?? Colors.white;
+              _backgroundColor = Colors.transparent;
           }
 
           return Container(

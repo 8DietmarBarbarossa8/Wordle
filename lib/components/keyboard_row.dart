@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wordle/constants/answer_stages.dart';
 import 'package:wordle/constants/colors.dart';
-import 'package:wordle/controller.dart';
+import 'package:wordle/providers/controller.dart';
 import 'package:wordle/data/keys_map.dart';
 import 'package:provider/provider.dart';
 
@@ -43,6 +43,7 @@ class KeyBoardRow extends StatelessWidget {
                 default:
                   keyColor = Theme.of(context).textTheme.bodyText2?.color ??
                       Colors.white;
+                  color = Colors.transparent;
               }
 
               return Padding(
