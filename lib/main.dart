@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wordle/constants/colors.dart';
+import 'package:wordle/pages/settings_page.dart';
 import 'package:wordle/providers/controller.dart';
 import 'package:wordle/pages/home_page.dart';
 import 'package:provider/provider.dart';

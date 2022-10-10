@@ -4,6 +4,7 @@ import 'package:wordle/components/grid.dart';
 import 'package:wordle/components/keyboard_row.dart';
 import 'package:wordle/constants/words.dart';
 import 'package:provider/provider.dart';
+import 'package:wordle/pages/settings_page.dart';
 import 'package:wordle/providers/theme_provider.dart';
 import 'package:wordle/providers/controller.dart';
 
@@ -37,8 +38,12 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
         actions: [
           IconButton(
-            onPressed: (){
-              Provider.of<ThemeProvider>(context, listen: false).setTheme();
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const SettingsPage(),
+                ),
+              );
             },
             icon: const Icon(Icons.settings),
           ),
