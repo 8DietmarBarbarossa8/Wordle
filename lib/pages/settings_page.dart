@@ -3,20 +3,14 @@ import 'package:wordle/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:wordle/theme/theme_preferences.dart';
 
-class SettingsPage extends StatefulWidget {
+class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
-  @override
-  State<SettingsPage> createState() => _SettingsPageState();
-}
-
-class _SettingsPageState extends State<SettingsPage> {
-  bool _isSwitched = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: const Text('Settings'),
         centerTitle: true,
         elevation: 0,
         actions: [
@@ -30,15 +24,18 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       body: Column(
         children: [
-          SwitchListTile(
-            value: _isSwitched,
-            onChanged: (value) {
-              setState(() {
-                _isSwitched = value;
-              });
-              ThemePreferences.saveTheme(isDark: _isSwitched);
-              Provider.of<ThemeProvider>(context, listen: false)
-                  .setTheme(turnOn: _isSwitched);
+          Consumer<ThemeProvider>(
+            builder: (_, notifier, __) {
+              bool isSwitched = false;
+              isSwitched = notifier.isDark;
+              return SwitchListTile(
+                value: isSwitched,
+                onChanged: (value) {
+                  ThemePreferences.saveTheme(isDark: isSwitched);
+                  Provider.of<ThemeProvider>(context, listen: false)
+                      .setTheme(turnOn: isSwitched);
+                },
+              );
             },
           )
         ],
