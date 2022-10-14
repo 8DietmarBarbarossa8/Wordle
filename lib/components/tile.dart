@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:wordle/constants/answer_stages.dart';
 import 'package:wordle/constants/colors.dart';
@@ -16,10 +18,13 @@ class Tile extends StatefulWidget {
   State<Tile> createState() => _TileState();
 }
 
-class _TileState extends State<Tile> {
+class _TileState extends State<Tile> with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+
   Color _backgroundColor = Colors.transparent,
       _borderColor = Colors.transparent;
   late AnswerStage _answerStage;
+  bool _animate = false;
 
   @override
   void initState() {
@@ -27,7 +32,18 @@ class _TileState extends State<Tile> {
       _borderColor = Theme.of(context).primaryColorLight;
     });
 
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -38,6 +54,8 @@ class _TileState extends State<Tile> {
         if (widget.index < notifier.tilesEntered.length) {
           text = notifier.tilesEntered[widget.index].letter;
           _answerStage = notifier.tilesEntered[widget.index].answerStage;
+
+          _animationController.forward();
 
           Color keyColor = Colors.white;
           switch (_answerStage) {
@@ -62,18 +80,34 @@ class _TileState extends State<Tile> {
               _backgroundColor = Colors.transparent;
           }
 
-          return Container(
-            decoration: _decorBox(),
-            child: FittedBox(
-              fit: BoxFit.contain,
-              child: Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: Text(
-                  text,
-                  style: const TextStyle().copyWith(color: keyColor),
-                ),
-              ),
-            ),
+          return AnimatedBuilder(
+            animation: _animationController,
+            builder: ((context, child) {
+              double flip = 0;
+              if (_animationController.value > .5) {
+                flip = pi;
+              }
+              return Transform(
+                  alignment: Alignment.center,
+                  transform: Matrix4.identity()
+                  ..setEntry(3, 2, .003)
+                    ..rotateX(_animationController.value * pi)
+                    ..rotateX(flip),
+                  child: Container(
+                    decoration: _decorBox(),
+                    child: FittedBox(
+                      fit: BoxFit.contain,
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: Text(
+                          text,
+                          style: const TextStyle().copyWith(color: keyColor),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+            }),
           );
         } else {
           return Container(
