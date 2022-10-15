@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:wordle/animations/bounce.dart';
 import 'package:wordle/components/tile.dart';
+import 'package:wordle/providers/controller.dart';
+import 'package:provider/provider.dart';
 
 class Grid extends StatelessWidget {
   const Grid({
@@ -18,7 +21,17 @@ class Grid extends StatelessWidget {
         crossAxisSpacing: 4,
       ),
       itemBuilder: (context, index) {
-        return Tile(index: index,);
+        return Consumer<Controller>(
+          builder: (_, notifier, __) {
+            return Bounce(
+              animate:
+                  index == notifier.currentTile - 1 && !notifier.isBackOrEnter,
+              child: Tile(
+                index: index,
+              ),
+            );
+          },
+        );
       },
     );
   }

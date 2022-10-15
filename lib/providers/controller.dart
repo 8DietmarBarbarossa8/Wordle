@@ -4,6 +4,7 @@ import 'package:wordle/data/keys_map.dart';
 import 'package:wordle/models/tile_model.dart';
 
 class Controller extends ChangeNotifier {
+  bool checkLine = false, isBackOrEnter = false;
   String correctWord = '';
   int currentTile = 0, currentRow = 0;
   List<TileModel> tilesEntered = [];
@@ -13,15 +14,18 @@ class Controller extends ChangeNotifier {
   setKeyTapped({required String value}) {
     if (value == 'ENTER') {
       if (currentTile == 5 * (currentRow + 1)) {
+        isBackOrEnter = true;
         checkWord();
       }
     } else if (value == 'BACK') {
       if (currentTile > 5 * (currentRow + 1) - 5) {
+        isBackOrEnter = true;
         currentTile--;
         tilesEntered.removeLast();
       }
     } else {
       if (currentTile < 5 * (currentRow + 1)) {
+        isBackOrEnter = false;
         tilesEntered.add(TileModel(
           letter: value,
           answerStage: AnswerStage.notAnswered,
