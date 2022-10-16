@@ -4,6 +4,8 @@ import 'package:wordle/components/tile.dart';
 import 'package:wordle/providers/controller.dart';
 import 'package:provider/provider.dart';
 
+import '../animations/dance.dart';
+
 class Grid extends StatelessWidget {
   const Grid({
     Key? key,
@@ -23,11 +25,25 @@ class Grid extends StatelessWidget {
       itemBuilder: (context, index) {
         return Consumer<Controller>(
           builder: (_, notifier, __) {
-            return Bounce(
-              animate:
-                  index == notifier.currentTile - 1 && !notifier.isBackOrEnter,
-              child: Tile(
-                index: index,
+            bool animateDance = false;
+            int danceDelay = 1600;
+            int length = notifier.tilesEntered.length;
+            for (int i = length - 5; i < length; i++) {
+              if (index == i) {
+                animateDance = true;
+                danceDelay += 150 * (i - ((notifier.currentRow - 1) * 5));
+              }
+            }
+            animateDance = notifier.gameWon;
+            return Dance(
+              delay: danceDelay,
+              animate: animateDance,
+              child: Bounce(
+                animate: index == notifier.currentTile - 1 &&
+                    !notifier.isBackOrEnter,
+                child: Tile(
+                  index: index,
+                ),
               ),
             );
           },
