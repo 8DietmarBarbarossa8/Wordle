@@ -2,10 +2,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:wordle/components/grid.dart';
 import 'package:wordle/components/keyboard_row.dart';
+import 'package:wordle/components/stats_box.dart';
 import 'package:wordle/constants/words.dart';
 import 'package:provider/provider.dart';
 import 'package:wordle/pages/settings_page.dart';
-import 'package:wordle/providers/theme_provider.dart';
 import 'package:wordle/providers/controller.dart';
 
 class HomePage extends StatefulWidget {
@@ -37,6 +37,12 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         elevation: 0,
         actions: [
+          IconButton(
+            onPressed: () {
+              showDialog(context: context, builder: (_) => const StatsBox());
+            },
+            icon: const Icon(Icons.bar_chart_outlined),
+          ),
           IconButton(
             onPressed: () {
               Navigator.of(context).push(
